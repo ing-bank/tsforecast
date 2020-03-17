@@ -1,0 +1,100 @@
+
+## Definitions
+
+A number of definitions are used, which are visualized and described below:
+
+```{r, out.width = "900px"}
+knitr::include_graphics(file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/forecast_error.png"))
+```
+
+* **Period**: a date format which only considers the year and month (in yyyymm format), which is considered to always correspond to the month ultimo (the last day of the month).
+* **Forecast date**: the date of the forecast (e.g. January 2017, or 201701 in period format).
+* **Training data**: the data that is used to 'train' the forecast model, which means to determine the model parameters that are going to be used for forecasting. The training data can only be data from before or on the date of forecast (e.g. January 2009 up to and including January 2017), but can never overlap with the validation data.
+* **Validation data**: the data that is used to 'validate' the forecast model performance, which means to evaluate the model performance on data which the model has not seen before. The validation data can only be data from after the date of forecast (e.g. February 2017 and later) and can never overlap with the training data. The validation data is used to calculate the forecast errors, which are then used as a basis for comparing different forecast models on their performance accross different forecast horizons.
+* **Actuals**: the 'actual' reported number for a specific month.
+* **Forecast**: the predicted number for a specific month.
+* **Forecast error**: the difference between the forecast and actual number for a specific month.
+* **Forecast horizon**: the number of months that a specific forecast lies ahead (e.g. 6 months ahead).
+* **Forecast model**: an algorithm or heuristic which uses a set of training data to calculate forecasts for the required forecast horizon (e.g. monthly forecasts for 5 years ahead).
+* **Sliding windows**: a set of forecast dates which each represent a different split of the data into training data and validation data. 
+
+```{r, out.width = "900px"}
+knitr::include_graphics(file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/sliding_windows.png"))
+```
+
+<br>
+
+***
+
+## Forecast evaluation
+
+For every available group in the data, there are multiple forecasting models that can be trained. The full list of forecasting models that are available is included in this document under [Forecasting models](#fc_models). The way each of these forecast models has been trained is described under one of the previous tabs called *Definitions*.  
+
+This section describes which process can be followed to select a specific 'best' model for each group, to be used as final forecast model. For more information on the definitions of specific terms, have a look at one of the previous tabs called *Definitions*. 
+
+The process is as follows:  
+
+* Calculate the forecast error:
+    + For every forecast model (e.g. fc_arima)
+    + For every sliding window (e.g. data split into training and validation at Jan 2015)
+    + For every forecast horizon (e.g. 12 months ahead forecast)
+    + _(only possible for the months for which actuals are already available)_
+  
+This can result in the following number of forecast errors:  
+
+> number of forecast errors = 30 forecast models x 50 sliding windows x 60 forecast horizons = +/- 90.000 data points
+
+This collection of data points is then summarized to evaluate the forecast performance:  
+
+* Calculate the [mean absolute forecast error](https://en.wikipedia.org/wiki/Mean_absolute_error):
+    + Per forecast model
+    + Per forecast horizon  
+    + *Over all sliding windows*
+
+This information is then used to determine the order of the different forecast models for each forecast horizon, based on the [mean absolute forecast error](https://en.wikipedia.org/wiki/Mean_absolute_error) as a performance metric. This results in a separate ranking of the n different forecast models for each available forecast horizon (1 to 60 months ahead).
+
+For example, for the 12 months ahead forecast horizon the ranking could be like this:  
+
+* 1: _fc_ets_addiv_
+* 2: _fc_arima_
+* 3: _fc_drift_l3m_
+* X: ...
+* n-2: _fc_mean_l12m_
+* n-1: _fc_naive_
+* n: _fc_bats_
+ 
+By calculating a ranking for every forecast horizon we get an indication of the performance of every forecast model over all of these different forecast horizons. For every forecast model, the ranking of that model in terms of forecast performance over these different forecast horizons is summed to obtain an overall ranking.  
+
+> For example, the overall ranking for the _fc_ets_addiv_ model could be 89 points, because it was one of the top 5 performers in most of the forecast horizons that have been considered. 
+
+The forecast models are then ranked based on their overall ranking (where a lower overall rank indicates a better forecast performance then a higher overall rank) and a top X of forecast models can be selected. 
+
+<br>
+
+***
+
+## Forecast tools
+
+The forecast models are written in the programming language [R](https://www.r-project.org/about.html), for which a time series forecasting framework has been developed using a set of publicly available packages as well as user defined functions developed by Finance Advanced Analytics. The code is maintained using the internal [ING GitLab](https://gitlab.ing.net/), on which a shared repository for the [AdvancedAnalyticsCommunity](https://gitlab.ing.net/AdvancedAnalyticsCommunity/tsforecast) is used for version control of the tsforecast package.
+
+A limited overview of the most important software tools used to build the forecast models is given below:
+
+|    Tool     |                Description                |
+|:-----------:|-------------------------------------------|
+|<img src="`r file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/r-logo.png")`" width="125" height="125" />| [R](https://www.r-project.org/about.html) is an open source language and environment for statistical computing and graphics. R provides a wide variety of statistical (linear and nonlinear modelling, classical statistical tests, time-series analysis, classification, clustering, etc.) and graphical techniques, and is highly extensible. For more information, check out the [R project page](https://www.r-project.org/about.html). |
+|<img src="`r file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/gitlab-logo.png")`" width="125" height="125" />| [GitLab](https://about.gitlab.com/) is a web-based Git repository manager with wiki and issue tracking features, using an open source license, developed by GitLab Inc. Git is a system where you can create projects of different sizes with speed and efficiency. It helps you manage code, communicate and collaborate on different software projects. Git will allow you to go back to a previous status on a project or to see its entire evolution since the project was created. For more information, check out [this tutorial on Git](https://www.atlassian.com/git/tutorials/what-is-git) or [this blog post on GitLab](https://about.gitlab.com/2015/05/18/simple-words-for-a-gitlab-newbie/). |
+
+A limited overview of the most frequently used R packages in the time series forecasting framework is given below:
+
+|  R Package  |                Description                |
+|:-----------:|-------------------------------------------|
+|<img src="`r file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/hex-forecast.png")`" width="75" height="75" />| [forecast](https://github.com/robjhyndman/forecast) provides methods and tools for displaying and analysing univariate time series forecasts including exponential smoothing via state space models and automatic ARIMA modelling. |
+|<img src="`r file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/hex-prophet.png")`" width="75" height="75" />| [prophet](https://github.com/facebook/prophet) provides a procedure for forecasting time series data based on an additive model where non-linear trends are fit with yearly and weekly seasonality, plus holidays. Prophet is open source software released by Facebook's Core Data Science team. |
+|<img src="`r file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/hex-ggplot2.png")`" width="75" height="75" />| [ggplot2](http://ggplot2.tidyverse.org/) is a system for declaratively creating graphics, based on The Grammar of Graphics. You provide the data, tell ggplot2 how to map variables to aesthetics, what graphical primitives to use, and it takes care of the details. |
+|<img src="`r file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/hex-plotly.png")`" width="75" height="75" />| [plotly](https://plot.ly/d3-js-for-r-and-shiny-charts/) is an online data analytics and visualization tool to create interactive, D3 and WebGL charts in R. With one line of code, it converts ggplot2 graphs to an interactive, Web embeddable version. |
+|<img src="`r file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/hex-dplyr.png")`" width="75" height="75" />| [dplyr](http://dplyr.tidyverse.org/) provides a grammar of data manipulation, providing a consistent set of verbs that solve the most common data manipulation challenges. |
+|<img src="`r file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/hex-tidyr.png")`" width="75" height="75" />| [tidyr](http://tidyr.tidyverse.org/) provides a set of functions that help you get to tidy data. Tidy data is data with a consistent form: in brief, every variable goes in a column, and every column is a variable. |
+|<img src="`r file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/hex-purrr.png")`" width="75" height="75" />| [purrr](http://purrr.tidyverse.org/) enhances R's functional programming (FP) toolkit by providing a complete and consistent set of tools for working with functions and vectors. Once you master the basic concepts, purrr allows you to replace many for loops with code that is easier to write and more expressive. |
+|<img src="`r file.path(dirname(dirname(getwd())),"initialization/Rmarkdown/figures/hex-tibble.png")`" width="75" height="75" />| [tibble](http://tibble.tidyverse.org/) is a modern re-imagining of the data frame, keeping what time has proven to be effective, and throwing out what it has not. Tibbles are data.frames that are lazy and surly: they do less and complain more forcing you to confront problems earlier, typically leading to cleaner, more expressive code. |
+
+
