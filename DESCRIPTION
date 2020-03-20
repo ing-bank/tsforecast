@@ -1,6 +1,6 @@
 Package: tsforecast
 Title: Time Series Forecasting Pipeline
-Version: 1.2.0
+Version: 1.0.0
 Authors@R: 
 	person("Gertjan", "van den Bos", email = "gertjan.bos@ing.com", role = c("aut", "cre"))
 	person("Mehmet", "Kutluay", email = "mehmet.kutluay@ing.com", role = c("aut", "cre"))
@@ -9,7 +9,7 @@ Authors@R:
 	person("Han", "Lin", email = "han.lin@ing.com", role = c("aut", "cre"))
 Description: This R package contains a set of functions that can be used to do time series forecasting.
 Depends: 
-	R (>= 3.4.3),
+	R (>= 3.6.0),
 	Rcpp (>= 0.12.16),
 	caret (>= 6.0-80),
 	tstools (>= 1.0.0),
@@ -58,4 +58,4 @@ Suggests:
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
