@@ -16,7 +16,7 @@ test_that("check add_all_multivariate_forecast_models with differing periods ahe
   ts_object_valid <- function_input %>%
     dplyr::slice(180:191) %>% 
     tstools::transform_data_to_ts_object()
-  expect_silent(
+  function_output <- capture.output(
     fc_models <- add_all_multivariate_forecast_models(
       ts_object_train = ts_object_train,
       ts_object_valid = ts_object_valid,
@@ -24,6 +24,7 @@ test_that("check add_all_multivariate_forecast_models with differing periods ahe
       verbose = F
     )
   )
+  expect_equal(function_output, character())
   expected_models <- c(
     "fc_linear_trend_xreg", "fc_linear_trend_seasonal_xreg", 
     "fc_arima_xreg", "fc_arima_stl_xreg", 

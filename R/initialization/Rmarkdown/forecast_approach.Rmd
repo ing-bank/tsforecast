@@ -75,7 +75,7 @@ The forecast models are then ranked based on their overall ranking (where a lowe
 
 ## Forecast tools
 
-The forecast models are written in the programming language [R](https://www.r-project.org/about.html), for which a time series forecasting framework has been developed using a set of publicly available packages as well as user defined functions developed by Finance Advanced Analytics. The code is maintained using the internal [ING GitLab](https://gitlab.ing.net/), on which a shared repository for the [AdvancedAnalyticsCommunity](https://gitlab.ing.net/AdvancedAnalyticsCommunity/tsforecast) is used for version control of the tsforecast package.
+The forecast models are written in the programming language [R](https://www.r-project.org/about.html), for which a time series forecasting framework has been developed using a set of publicly available packages as well as user defined functions.
 
 A limited overview of the most important software tools used to build the forecast models is given below:
 

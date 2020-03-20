@@ -60,7 +60,7 @@ For more information on definitions, available forecast models and their impleme
 * Running the `show_documentation()` function after [installing](#installation) and loading the package
 * Manually downloading [this file](inst/documentation/forecast_models.html) from Github and opening it in your browser (until Github makes it possible to view rendered html ...)
 
-The original developers of this R package are [Gertjan van den Bos](mailto:gertjan.bos@ing.com), [Mehmet Kutluay](mailto:yasar.kutluay@ing.com), [Olle Dahlen](mailto: olle.dahlen@ing.com), [Miel Verkerken](mailto: mielverkerken@hotmail.com) & [Han Lin](mailto: han.lin@ing.com)
+The original developers of this R package are [Gertjan van den Bos](mailto:gertjan.bos@ing.com), [Mehmet Kutluay](mailto:yasar.kutluay@ing.com), [Olle Dahlen](mailto:olle.dahlen@ing.com), [Miel Verkerken](mailto:mielverkerken@hotmail.com) & [Han Lin](mailto:han.lin@ing.com)
 
 ## Features<a name="features"></a>
 
@@ -107,19 +107,21 @@ These examples make use of the same Shiny dashboard as when using the `start_for
 
 ## Installation<a name="installation"></a>
 
-tsforecast is a package developed within ING and is not available on CRAN. 
-The fastest way to install the package is to use a terminal or command prompt. Clone this repository and stay in the parent directory. Afterwards, simply type:
+tsforecast is a package developed within ING and is not available on CRAN, but on [INGs github](https://github.com/ing-bank). 
+You can install the package directly from github using the [devtools package](https://cran.r-project.org/web/packages/devtools/index.html), using:
 
-```bash
-R CMD INSTALL tsforecast
+```{r, eval = FALSE}
+devtools::install_github("ing-bank/tsforecast")
 ```
 
 Some prerequisites for installing the package:
 
-* R version 3.4.3 or later
+* R version 3.6.0 or later
 * Rtools installed ([How to?](https://thecoatlessprofessor.com/programming/installing-rtools-for-compiled-code-via-rcpp))
 
-Any required packages that are missing from your R library will be indicated during installation or loading of the package, please [install these missing packages](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/install.packages.html) and retry installing/loading tsforecast.
+Any required packages that are missing from your R library should be automatically installed for you, otherwise please [install any missing packages](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/install.packages.html) before using the tsforecast package.
+
+**PLEASE NOTE**: *after installing the prophet package, you might need to call `library(prophet)` once in R for it to compile its model before you can use it!*
 
 ## How to use<a name="how_to_use"></a>
 
@@ -129,7 +131,7 @@ library(tsforecast)
 head(dummy_gasprice)
 ```
 
-You need to initialize the data to be used within the time series forecasting framework (using [`initialize_ts_forecast_data()`](#initialize_ts_forecast_data) from the tstools package), by specifying which columns correspond to which required fields for the forecasting:
+You need to initialize the data to be used within the time series forecasting framework (using [`initialize_ts_forecast_data()`](#initialize_ts_forecast_data) from the [tstools](https://github.com/ing-bank/tstools) package), by specifying which columns correspond to which required fields for the forecasting:
 ```{r, eval = TRUE}
 # For UNIVARIATE forecasting
 ts_forecast_data_univariate <- tstools::initialize_ts_forecast_data(

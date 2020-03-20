@@ -9,15 +9,15 @@ test_that("check run_example for correctly loading data for AirPassengers", {
   expect_is(function_output, "character")
   expect_true(file.exists(function_output))
   available_files <- list.files(function_output, recursive = T)
-  expect_equal(available_files, c(
-    "FD_external_regressor_drivers_tab_ui.R", 
-    "FD_external_regressors_tab_ui.R", "FD_forecast_deepdive_server.R", 
-    "FD_forecast_deepdive_ui.R", "FD_forecast_performance_tab_ui.R", 
-    "FD_forecasts_vs_actuals_tab_ui.R", "FD_hierarchical_forecasts_tab_ui.R", 
-    "main_server.R", "server.R", "sidebar_ui.R", "ui.R", 
-    "VH_view_hierarchy_server.R", "VH_view_hierarchy_ui.R", "www/favicon.ico", 
-    "www/style.css", "www/tsforecast_logo.png", "www/white_space.png"
-  ))
+  expect_true(all(available_files %in% c(
+    "FD_external_regressor_drivers_tab_ui.R", "FD_external_regressors_tab_ui.R", 
+    "FD_forecast_deepdive_server.R", "FD_forecast_deepdive_ui.R", 
+    "FD_forecast_performance_tab_ui.R", "FD_forecasts_vs_actuals_tab_ui.R", 
+    "FD_hierarchical_forecasts_tab_ui.R", "main_server.R", "server.R", 
+    "sidebar_ui.R", "ui.R", "VH_view_hierarchy_server.R", "VH_view_hierarchy_ui.R", 
+    "www/favicon.ico", "www/style.css", "www/tsforecast_logo.png", 
+    "www/white_space.png"
+  )))
   expect_is(app_data, "list")
   expect_equal(names(app_data), c(
     "main_forecasting_table", "groupings", "fc_models", 
@@ -71,15 +71,15 @@ test_that("check run_example for correctly loading data for nottem", {
   expect_is(function_output, "character")
   expect_true(file.exists(function_output))
   available_files <- list.files(function_output, recursive = T)
-  expect_equal(available_files, c(
-    "FD_external_regressor_drivers_tab_ui.R", 
-    "FD_external_regressors_tab_ui.R", "FD_forecast_deepdive_server.R", 
-    "FD_forecast_deepdive_ui.R", "FD_forecast_performance_tab_ui.R", 
-    "FD_forecasts_vs_actuals_tab_ui.R", "FD_hierarchical_forecasts_tab_ui.R", 
-    "main_server.R", "server.R", "sidebar_ui.R", "ui.R", 
-    "VH_view_hierarchy_server.R", "VH_view_hierarchy_ui.R", "www/favicon.ico", 
-    "www/style.css", "www/tsforecast_logo.png", "www/white_space.png"
-  ))
+  expect_true(all(available_files %in% c(
+    "FD_external_regressor_drivers_tab_ui.R", "FD_external_regressors_tab_ui.R", 
+    "FD_forecast_deepdive_server.R", "FD_forecast_deepdive_ui.R", 
+    "FD_forecast_performance_tab_ui.R", "FD_forecasts_vs_actuals_tab_ui.R", 
+    "FD_hierarchical_forecasts_tab_ui.R", "main_server.R", "server.R", 
+    "sidebar_ui.R", "ui.R", "VH_view_hierarchy_server.R", "VH_view_hierarchy_ui.R", 
+    "www/favicon.ico", "www/style.css", "www/tsforecast_logo.png", 
+    "www/white_space.png"
+  )))
   expect_is(app_data, "list")
   expect_equal(names(app_data), c(
     "main_forecasting_table", "groupings", "fc_models", 
@@ -133,15 +133,15 @@ test_that("check run_example for correctly loading data for UKDriverDeaths", {
   expect_is(function_output, "character")
   expect_true(file.exists(function_output))
   available_files <- list.files(function_output, recursive = T)
-  expect_equal(available_files, c(
-    "FD_external_regressor_drivers_tab_ui.R", 
-    "FD_external_regressors_tab_ui.R", "FD_forecast_deepdive_server.R", 
-    "FD_forecast_deepdive_ui.R", "FD_forecast_performance_tab_ui.R", 
-    "FD_forecasts_vs_actuals_tab_ui.R", "FD_hierarchical_forecasts_tab_ui.R", 
-    "main_server.R", "server.R", "sidebar_ui.R", "ui.R", 
-    "VH_view_hierarchy_server.R", "VH_view_hierarchy_ui.R", "www/favicon.ico", 
-    "www/style.css", "www/tsforecast_logo.png", "www/white_space.png"
-  ))
+  expect_true(all(available_files %in% c(
+    "FD_external_regressor_drivers_tab_ui.R", "FD_external_regressors_tab_ui.R", 
+    "FD_forecast_deepdive_server.R", "FD_forecast_deepdive_ui.R", 
+    "FD_forecast_performance_tab_ui.R", "FD_forecasts_vs_actuals_tab_ui.R", 
+    "FD_hierarchical_forecasts_tab_ui.R", "main_server.R", "server.R", 
+    "sidebar_ui.R", "ui.R", "VH_view_hierarchy_server.R", "VH_view_hierarchy_ui.R", 
+    "www/favicon.ico", "www/style.css", "www/tsforecast_logo.png", 
+    "www/white_space.png"
+  )))
   expect_is(app_data, "list")
   expect_equal(names(app_data), c(
     "main_forecasting_table", "groupings", "fc_models", 
@@ -195,15 +195,15 @@ test_that("check run_example for correctly loading data for hierarchical", {
   expect_is(function_output, "character")
   expect_true(file.exists(function_output))
   available_files <- list.files(function_output, recursive = T)
-  expect_equal(available_files, c(
-    "FD_external_regressor_drivers_tab_ui.R", 
-    "FD_external_regressors_tab_ui.R", "FD_forecast_deepdive_server.R", 
-    "FD_forecast_deepdive_ui.R", "FD_forecast_performance_tab_ui.R", 
-    "FD_forecasts_vs_actuals_tab_ui.R", "FD_hierarchical_forecasts_tab_ui.R", 
-    "main_server.R", "server.R", "sidebar_ui.R", "ui.R", 
-    "VH_view_hierarchy_server.R", "VH_view_hierarchy_ui.R", "www/favicon.ico", 
-    "www/style.css", "www/tsforecast_logo.png", "www/white_space.png"
-  ))
+  expect_true(all(available_files %in% c(
+    "FD_external_regressor_drivers_tab_ui.R", "FD_external_regressors_tab_ui.R", 
+    "FD_forecast_deepdive_server.R", "FD_forecast_deepdive_ui.R", 
+    "FD_forecast_performance_tab_ui.R", "FD_forecasts_vs_actuals_tab_ui.R", 
+    "FD_hierarchical_forecasts_tab_ui.R", "main_server.R", "server.R", 
+    "sidebar_ui.R", "ui.R", "VH_view_hierarchy_server.R", "VH_view_hierarchy_ui.R", 
+    "www/favicon.ico", "www/style.css", "www/tsforecast_logo.png", 
+    "www/white_space.png"
+  )))
   expect_is(app_data, "list")
   expect_equal(names(app_data), c(
     "main_forecasting_table", "groupings", "fc_models", 

@@ -6,7 +6,7 @@ output:
   html_document
 ---
 
-For questions or comments, contact the package maintaner [Mehmet Kutluay](mailto:yasar.kutluay@ing.com)
+For questions or comments, contact the package maintainer [Mehmet Kutluay](mailto:yasar.kutluay@ing.com)
 
 <br>
 
