@@ -1,0 +1,246 @@
+
+/* ERROR MESSAGE */
+	.shiny-output-error { 
+		visibility: hidden; 
+	}
+	.shiny-output-error:before {
+		visibility: visible;
+		font-size: 16px;
+		content: 'Please contact one of the developers if this error occurs frequently...'; }
+	}
+
+/* HEADER STYLE */
+	/* Background of the left side of the title bar */
+	.skin-blue .main-header {
+		background-color: #FFFFFF;
+		color: #FF6200;
+		border-top: #97BF0D solid 2px;
+		border-bottom: #97BF0D solid 2px;
+	}
+	.skin-blue .main-header .logo {
+		background-color: #FFFFFF;
+		color: #FF6200;
+	}
+	/* Background of the left side of the title bar when hovered */
+	.skin-blue .main-header .logo:hover {
+		background-color: #FFFFFF;
+	}
+	/* Background of the right side of the title bar */
+	.skin-blue .main-header .navbar {
+		background-color: #A8A8A8;
+	}
+	/* Background of the sidebar toggler when hovered */
+	.skin-blue .main-header .navbar .sidebar-toggle:hover {
+		background-color: #767676;
+	}
+
+/* SIDEBAR STYLE */
+	/* Background of the side bar */
+	.skin-blue .main-sidebar {
+		background-color: #A8A8A8;
+		color: #000000;
+		font-family: "Arial";
+		font-size: 14px;
+		font-weight: 500;
+	}
+	/* Background of the side bar menu */
+	.skin-blue .main-sidebar .sidebar {
+		background-color: #A8A8A8;
+		color: #000000;
+	}
+	/* Background of the selected tab */
+	.main-sidebar .sidebar .sidebar-menu .active a {
+		background-color: #767676;
+		color: #FFFFFF;
+		border-left-color: #FF6200;
+	}
+	/* Background of the unselected tabs */
+	.main-sidebar .sidebar .sidebar-menu a {
+		background-color: #A8A8A8;
+		color: #000000;
+	}
+	/* Background of the tabs when hovered */
+	.main-sidebar .sidebar .sidebar-menu a:hover {
+		background-color: #767676;
+		color: #FFFFFF;
+		border-left-color: #FF6200;
+	}
+
+/* BODY STYLE */
+	/* Background of the main body */
+	.content-wrapper {
+		background-color: #FFFFFF;
+		font-family: "Arial";
+	}
+	/* Borders of boxes in the main body */
+	.box {
+		border-top-color: #FF6200;
+		font-family: "Arial";
+		margin-bottom: 10px;
+	}
+	/* Padding of box bodies in the main body */
+	.box-body {
+		padding: 5px;
+	}
+	/* Borders of boxes in the main body */
+	.nav-tabs-custom .nav-tabs li.active {
+		border-top-color: #FF6200;
+	}
+	/* Text of the tabs in the main body */
+	.nav-tabs li a {
+		color: #FF6200;
+	}
+	/* Data tables within the boxes */
+	.dataTables_wrapper .sorting {
+		background-color: #FF6200;
+		color: #FFFFFF;
+	}
+
+/* UI STYLE */
+	/* Font of selectizers */
+	label.control-label {
+		font-family: "Arial";
+		font-size: 14px;
+		font-weight: 500;
+	}
+	/* Font of selectize label */
+	label {
+		font-family: "Arial";
+		font-size: 14px;
+		font-weight: 500;
+	}
+	/* Colour of the slider bar */
+	.irs-bar, span.irs-bar {
+		border-top-color: #767676;
+		border-bottom-color: #767676;
+		background: #FF6200;
+	} 
+	.irs-bar-edge, span.irs-bar-edge {
+		border-color: #767676;
+		background: #FF6200;
+	}
+	.irs-single, .irs-from , .irs-to {
+		background: #FF6200;
+	}
+	span.irs-single, span.irs-from, span.irs-to {
+		background: #FF6200;
+	}
+	/* Center all UI labels */
+	.selectize-control.single, .selectize-control {
+		text-align: left; 
+		vertical-align: middle;
+		margin-bottom: 0px;
+	}
+	.selectize-control.single.control-label {
+		text-align: center;
+	}
+	/* Remove margins and padding around UI elements */
+	.form-group.shiny-input-container {
+		margin-bottom: 0px;
+	}
+	section.sidebar .shiny-input-container {
+		padding: 0px 0px 0px 0px;
+	}
+	/* Colour of the border around selectizes */
+	.selectize-input.items.full.has-options.has-items.focus {
+		border-color: #FF6200;
+	}
+	.selectize-input.items.not-full.has-options.focus {
+		border-color: #FF6200;
+	}
+	.selectize-input.items.not-full.has-options.has-items.focus {
+		border-color: #FF6200;
+	}
+	.selectize-input.items.not-full.focus.input-active {
+		border-color: #FF6200;
+	}
+	/* Colour of the focussed items within selectizes */
+	.selectize-input.items.not-full.has-options.has-items.focus .item.active {
+		background: #FF6200;
+	}
+	/* Colour of the non-focussed items within selectizes */
+	.selectize-input.items.not-full.has-options.has-items .item.active {
+		color: #333333;
+		background: #EFEFEF;
+	}
+	/* Colour of the border around login fields */
+	.form-control:focus {
+		border-color: #FF6200;
+	}
+	/* Colour of the border around buttons when pressed */
+	.btn:active:focus {
+		outline:none;
+		border-color: #FF6200;
+	}
+	
+	
+/* TEXT SELECTION STYLE */
+	/* Text color and background when selecting text */
+	::selection {
+		color: white;
+		background: #FF6200;
+	}
+	/* Text color and background when selecting text for Firefox browser */
+	::-moz-selection {
+		color: white;
+		background: #FF6200;
+	}
+	
+
+/* HTML STYLE */
+	/* Font and size of h1 headings */
+	h1 {
+		font-family: "Arial";
+		font-size: 24px;
+		font-weight: 500;
+	}
+	/* Font and size of h4 headings */
+	h4 {
+		font-family: "Arial";
+		font-size: 18px;
+		font-weight: 500;
+		margin-top: 7px;
+		margin-bottom: 7px;
+	}
+	/* Font and size of h5 headings */
+	h5 {
+		font-family: "Arial";
+		font-size: 14px;
+		font-weight: 500;
+	}
+	/* Font and size of textOutput */
+	shiny-text-output {
+		font-family: "Arial";
+		font-size: 12px;
+		font-weight: 500;
+	}
+	/* Border size and style*/
+	hr.thick {
+		border-top: 1.5px solid white;
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+	
+/* NOTIFICATION STYLE */
+	/* Font and size of notifications */
+	.shiny-notification {
+		font-family: "Arial";
+		font-size: 24px;
+		font-weight: 500;
+		text-align: center;
+		vertical-align: middle;
+		height: 100px;
+		width: 800px;
+	}
+	#shiny-notification-panel {
+		position: fixed;
+		bottom: calc(5%);
+		right: calc(50% + 100px);
+	}
+	/* Colour of the progress bar */
+	.progress-bar {
+		border-top-color: #767676;
+		border-bottom-color: #767676;
+		background: #FF6200;
+	}

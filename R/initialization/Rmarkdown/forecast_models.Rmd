@@ -1,0 +1,627 @@
+
+## About the example data
+
+Each forecasting model is explained using an example dataset which is publicly available. The dataset used is the classic Box & Jenkins airline data, which contains monthly totals of international airline passengers from 1949 to 1960. It contains a clear trend and yearly seasonality, which enables some of the models to achieve a pretty good fit and a succesfull forecast. 
+
+> Please note that even though some of the other models have a bad fit on this particular dataset (and for this particular split date), these models can still be very succesfull in forecasting based on other datasets!
+
+For a more extensive and interactive demonstration of the different forecasting models implemented in this package, you can run one of the following examples after loading the tsforecast package in R:
+
+* run_example(dataset = '[AirPassengers](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/AirPassengers.html)')
+* run_example(dataset = '[nottem](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/nottem.html)')
+* run_example(dataset = '[UKDriverDeaths](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/UKDriverDeaths.html)')
+
+```{r example_data, echo=FALSE, results = "hide"}
+# Create function to prevent repetition of code for each fc_model
+create_fc_model_plot <- function(fc_model) {
+  example_data <- univariate_example_data_1 %>% 
+    dplyr::filter(grouping == "dataset = AirPassengers   &   type = original") %>% 
+    dplyr::mutate(grouping = "dataset = AirPassengers") %>% 
+    dplyr::filter(ts_split_date == 195512)
+  compare_forecasts_with_actuals(
+      main_forecasting_table = example_data,
+      fc_models = fc_model
+    ) %>% 
+    plotly::config(displayModeBar = FALSE) %>% 
+    plotly::layout(
+      #yaxis = list(range = c(-10, 810)),
+      legend = list(orientation = 'h', x = 0.35, y = -0.1)
+    )
+}
+```
+
+<br>
+
+***
+
+## Basic models {.tabset .tabset-fade .tabset-pills} 
+
+### Mean forecast models {.tabset .tabset-fade .tabset-pills} 
+
+In mean forecast models, the forecasts of all future values are equal to the mean of the latest available historical data. This forecasting method is very simple but can also be surprisingly effective, especially in case of a volatile time series without a clear trend. One parameter to play around with for these forecast models is the number of previous data points that are used to calculate the mean value that is used as a forecast for future data points. The mean forecast models are implemented using the _forecast::meanf()_ function. More information on mean forecast models can be found in [this online book](https://www.otexts.org/fpp/2/3).
+
+The following versions of this model are available in the tsforecast package:
+
+#### fc_mean_l12m
+
+> **fc_mean_l12m** = _**Mean** value over the **l**ast **12** **m**onths_
+
+In this model the mean is calculated over the last 12 months prior to the forecast date, which is then extrapolated as a forecast for the required future months. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_mean_l12m, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_mean_l12m")
+```
+
+***
+
+#### fc_mean_l6m
+
+> **fc_mean_l6m** = _**Mean** value over the **l**ast **6** **m**onths_
+
+In this model the mean is calculated over the last 6 months prior to the forecast date, which is then extrapolated as a forecast for the required future months. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_mean_l6m, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_mean_l6m")
+```
+
+***
+
+#### fc_mean_l3m
+
+> **fc_mean_l3m** = _**Mean** value over the **l**ast **3** **m**onths_
+
+In this model the mean is calculated over the last 3 months prior to the forecast date, which is then extrapolated as a forecast for the required future months. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_mean_l3m, echo=FALSE, out.height="300px", out.width="900px", results="asis"}
+create_fc_model_plot("fc_mean_l3m")
+```
+
+***
+
+### Drift forecast models {.tabset .tabset-fade .tabset-pills} 
+
+Drift forecast models are a variation on the naive method to allow the forecasts to increase or decrease over time, where the amount of change over time (called the drift) is set to be the mean change seen in the historical data. This forecasting method is quite simple but can also be surprisingly effective, especially in case of a volatile time series with a clear trend. One parameter to play around with for these forecast models is the number of previous data points that are used to calculate the drift that is used to forecast the future data points. The drift forecast models are implemented using the _forecast::rwf(drift = TRUE)_ function. More information on drift forecast models can be found in [this online book](https://www.otexts.org/fpp/2/3).
+
+The following versions of this model are available in the tsforecast package:
+
+#### **fc_drift_l12m**
+
+> **fc_drift_l12m** = _Random walk with **drift** over the **l**ast **12** **m**onths_
+
+In this model the drift is calculated over the last 12 months prior to the forecast date, which is then extrapolated in the forecast for the required future months. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_drift_l12m, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_drift_l12m")
+```
+
+***
+
+#### **fc_drift_l6m**
+
+> **fc_drift_l6m** = _Random walk with **drift** over the **l**ast **6** **m**onths_
+
+In this model the drift is calculated over the last 6 months prior to the forecast date, which is then extrapolated in the forecast for the required future months. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_drift_l6m, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_drift_l6m")
+```
+
+***
+
+#### **fc_drift_l3m**
+
+> **fc_drift_l3m** = _Random walk with **drift** over the **l**ast **3** **m**onths_
+
+In this model the drift is calculated over the last 3 months prior to the forecast date, which is then extrapolated in the forecast for the required future months. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_drift_l3m, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_drift_l3m")
+```
+
+***
+
+### Naive forecast models {.tabset .tabset-fade .tabset-pills} 
+
+In naive forecast models, the forecasts of all future values are simply set to be the value of the last observation. This forecast method is also sometimes refered to as 'yesterdays weather'. The naive forecast method can work remarkably well for many economic and financial time series. A similar method, called seasonal naive method, is useful for highly seasonal data. In that case, we set each forecast to be equal to the last observed value from the same season of the year (e.g., the same month of the previous year). More information on naive forecast models can be found in [this online book](https://www.otexts.org/fpp/2/3).
+
+The following versions of this model are available in the tsforecast package:
+
+#### **fc_naive**
+
+> **fc_naive** = _**Naive** forecast model which extrapolates the last known value_
+
+The naive forecast model is implemented using the _forecast::naive()_ function. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_naive, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_naive")
+```
+
+***
+
+#### **fc_naive_seasonal**
+
+> **fc_naive_seasonal** = _**Seasonal Naive** forecast model which extrapolates the last known value from the last same season_
+
+The seasonal naive forecast model is implemented using the _forecast::snaive()_ function. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_naive_seasonal, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_naive_seasonal")
+```
+
+***
+
+
+
+## Linear models {.tabset .tabset-fade .tabset-pills} 
+
+Linear models can be fit to time series, including trend and seasonality components. A time series linear model is basically a regression where variables "trend" and "season" are created from the time series characteristics of the data to be used in the regression model. The variable "trend" is a simple time trend and "season" is a factor indicating the season (e.g., the month or the quarter depending on the frequency of the data). More information on applying linear models to time series data can be found [this online book](https://www.otexts.org/fpp/4/8).
+
+The following versions of this model are available in the tsforecast package:
+
+### **fc_linear_trend**
+
+> **fc_linear_trend**  = _Time series **linear** model with only a **trend** component_
+
+The linear model with only a trend component is implemented using the _forecast::tslm(formula = x ~ trend)_ function, which is largely a wrapper for the generic _stats::lm()_ function used to fit linear models. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_linear_trend, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_linear_trend")
+```
+
+***
+
+### **fc_linear_trend_seasonal**
+
+> **fc_linear_trend_seasonal** = _Time series **linear** model with **trend** and **seasonal**ity components_
+
+The linear model with both a trend and seasonal component is implemented using the _forecast::tslm(formula = x ~ trend + season)_ function, which is largely a wrapper for the generic _stats::lm()_ function used to fit linear models. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_linear_trend_seasonal, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_linear_trend_seasonal")
+```
+
+***
+
+
+
+## Holt-Winters models {.tabset .tabset-fade .tabset-pills} 
+
+The Holt-Winters models are an extended simple exponential smoothing to allow forecasting of data with a trend and seasonality. It comprises a forecast equation and three smoothing equations, one for the level, one for trend and one for the seasonal component. There are two variations to this method that differ in the nature of the seasonal component. The additive method is preferred when the seasonal variations are roughly constant through the series, while the multiplicative method is preferred when the seasonal variations are changing proportional to the level of the series. A detailed description of Holt-Winters models can be found in [this online book](https://www.otexts.org/fpp/7/5).
+
+The following versions of this model are available in the tsforecast package:
+
+### **fc_holt_winters_addiv**
+
+> **fc_holt_winters_addiv** = _**Holt**-**Winters** filtering (with **addi**ti**v**e trend)_
+
+The Holt-Winters model with additive seasonal model is implemented using the _stats::HoltWinters(seasonal = 'additive')_ function, which computes Holt-Winters filtering of a given time series and estimates parameters by minimizing the squared prediction error. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_holt_winters_addiv, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_holt_winters_addiv")
+```
+
+***
+
+### **fc_holt_winters_multip**
+
+> **fc_holt_winters_multip** = _**Holt**-**Winters** filtering (with **multip**licative trend)_
+
+The Holt-Winters model with multiplicative seasonal model is implemented using the _stats::HoltWinters(seasonal = 'multiplicative')_ function, which computes Holt-Winters filtering of a given time series and estimates parameters by minimizing the squared prediction error. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_holt_winters_multip, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_holt_winters_multip")
+```
+
+***
+
+
+
+## (T)BATS models {.tabset .tabset-fade .tabset-pills} 
+
+(T)BATS models are based on an innovations state space modeling framework for forecasting complex seasonal time series such as those with multiple seasonal periods, high frequency seasonality, non-integer seasonality and dual-calendar effects. The models incorporate BoxCox transformations, Fourier representations with time varying coefficients, and ARMA error correction. The framework for the (T)BATS models are described in detail in [this online paper](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.450.8320&rep=rep1&type=pdf) by De Livera, Hyndman & Snyder (2011).
+
+The following versions of this model are available in the tsforecast package:
+
+### **fc_bats**
+
+> **fc_bats** = _**B**ox-Cox transform, **A**RMA errors, **T**rend, and **S**easonal components_
+
+The BATS model is implemented using the _forecast::bats(stepwise = TRUE, approximation = TRUE)_ function, which is an exponential smoothing state space model with Box-Cox transformation, ARMA errors, Trend and Seasonal components, as described in the paper by De Livera, Hyndman & Snyder (2011). The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_bats, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_bats")
+```
+
+***
+
+### **fc_tbats**
+
+> **fc_tbats** = _**B**ox-Cox transform, **A**RMA errors, **T**rend, and **S**easonal components (with **T**rigonometric seasonal formulation)_
+
+The TBATS model is implemented using the _forecast::tbats(stepwise = TRUE, approximation = TRUE)_ function, which is basically a BATS model with trigonometric seasonal formulation, as described in the paper by De Livera, Hyndman & Snyder (2011). The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_tbats, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_tbats")
+```
+
+***
+
+
+
+## ETS models {.tabset .tabset-fade .tabset-pills} 
+
+ETS models (with **E**rror, **T**rend and **S**easonality components) are based on the concept of exponential smoothing, in which previous observations are weighted according to some function to calculate forecasts. A framework methodology introduced by Hyndman et al. (2002 & 2008) considers 15 possible exponential smoothing methods, combined with 2 different models: one with additive errors and one with multiplicative errors. This creates a taxonomy of 30 different forecast methods that are assessed within the ETS framework to create a forecast model. Model selection is based on a specified information criterion, which is one of AICc, AIC or BIC. One of the advantages of ETS is that it can handle any combination of trend, seasonality and damping. An extensive description of ETS models can be found in [this online book](https://www.otexts.org/fpp/7/7).
+
+The following versions of this model are available in the tsforecast package:
+
+### **fc_ets_addiv**
+
+> **fc_ets_addiv** = _Exponential smoothing model (with only **addi**ti**v**e trend allowed)_
+
+The ETS model with only additive trend allowed is implemented using the _forecast::ets(additive.only = TRUE, allow.multiplicative.trend = FALSE)_ function, which conducts a search over the different possible methods from the ETS framework methodology by Hyndman et al. (2002 & 2008). The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_ets_addiv, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_ets_addiv")
+```
+
+***
+
+### **fc_ets_multip**
+
+> **fc_ets_multip** = _Exponential smoothing model (with **multip**licative trend allowed)_
+
+The ETS model with multiplicative trend allowed is implemented using the _forecast::ets(additive.only = FALSE, allow.multiplicative.trend = TRUE)_ function, which conducts a search over the different possible methods from the ETS framework methodology by Hyndman et al. (2002 & 2008). The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_ets_multip, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_ets_multip")
+```
+
+***
+
+### **fc_ets_addiv_damped**
+
+> **fc_ets_addiv_damped** = _Exponential smoothing model (with only **addi**ti**v**e **damped** trend allowed)_
+
+The ETS model with only additive damped trend allowed is implemented using the _forecast::ets(additive.only = TRUE, allow.multiplicative.trend = FALSE, damped = TRUE)_ function, which conducts a search over the different possible methods from the ETS framework methodology by Hyndman et al. (2002 & 2008). The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_ets_addiv_damped, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_ets_addiv_damped")
+```
+
+***
+
+### **fc_ets_multip_damped**
+
+> **fc_ets_multip_damped** = _Exponential smoothing model (with **multip**licative **damped** trend allowed)_
+
+The ETS model with multiplicative damped trend allowed is implemented using the _forecast::ets(additive.only = FALSE, allow.multiplicative.trend = TRUE, damped = TRUE)_ function, which conducts a search over the different possible methods from the ETS framework methodology by Hyndman et al. (2002 & 2008). The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_ets_multip_damped, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_ets_multip_damped")
+```
+
+***
+
+### **fc_ets_stl**
+
+> **fc_ets_stl** = _Exponential smoothing model after applying **S**easonal decomposition of the **T**ime series by **L**oess_
+
+The STL decomposition model is implemented using the _forecast::stlm(method = 'ets')_ function, which applies the ETS forecasting method to the seasonally adjusted data and re-seasonalizing using the last year of the seasonal component. More information on forecasting with decomposition can be found in [this online book](https://www.otexts.org/fpp/6/6). The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_ets_stl, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_ets_stl")
+```
+
+***
+
+
+
+## ARIMA models {.tabset .tabset-fade .tabset-pills} 
+
+In statistics and econometrics an autoregressive integrated moving average (ARIMA) model is a generalization of an autoregressive moving average (ARMA) model. ARIMA models are applied in some cases where data show evidence of non-stationarity, where an initial differencing step (corresponding to the "integrated" part of the model) can be applied one or more times to eliminate the non-stationarity. An extensive description of ARIMA models can be found in [this online book](https://www.otexts.org/fpp/8), which explains the concept of stationarity and differencing, autoregression and moving average models.
+
+The following versions of this model are available in the tsforecast package:
+
+### **fc_arima**
+
+> **fc_arima** = _**A**uto**R**egressive **I**ntegrated **M**oving **A**verage_
+
+The ARIMA model is implemented using the _forecast::auto.arima(stepwise = TRUE, approximation = TRUE)_ function, which conducts a search over possible models within the order contraints provided. Model selection is based on a specified information criterion, which is one of AIC, AICc or BIC. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_arima, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_arima")
+```
+
+***
+
+### **fc_arima_stl**
+
+> **fc_arima_stl** = _**A**uto**R**egressive **I**ntegrated **M**oving **A**verage after applying **S**easonal decomposition of the **T**ime series by **L**oess_
+
+The STL decomposition model is implemented using the _forecast::stlm(method = 'arima')_ function, which applies the ARIMA forecasting method to the seasonally adjusted data and re-seasonalizing using the last year of the seasonal component. More information on forecasting with decomposition can be found in [this online book](https://www.otexts.org/fpp/6/6). The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_arima_stl, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_arima_stl")
+```
+
+***
+
+
+
+## Kalman Filter models {.tabset .tabset-fade .tabset-pills} 
+
+Kalman filters are a type of state space model where it is assumed that what is observed is noisy, and thus the real value of an observation is latent. The latent variable is known as the underlying state and the kalman filter aims to *filter* out observed noise to estimate this underlying state. By using the dlm package in R, one can run kalman filters on many different functional forms of the underlying state. To see what these underlying states can look like, see [this excellent presentation](https://robjhyndman.com/talks/ABS3.pdf) by Rob J. Hyndman, Professor of Statistics and Head of the Department of Econometrics & Business Statistics at Monash University, Australia.
+
+The following versions of this model are available in the tsforecast package:
+
+### **fc_kalman_poly**
+
+> **fc_kalman_poly** = _**Kalman** Filter with a **Poly**nomial Underlying State_
+
+The underlying state is assumed to be a polynomial of two degrees, i.e. a linear regression.
+
+```{r fc_kalman_poly, echo = FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_kalman_poly")
+```
+
+***
+
+### **fc_kalman_seas_12**
+
+> **fc_kalman_seas_12** = _**Kalman** Filter with a **Seas**onality of **12** Months in the Underlying State_
+
+The underlying state is assumed to have a seasonality of 12 months. 
+
+```{r fc_kalman_seas_12, echo = FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_kalman_seas_12")
+```
+
+***
+
+
+
+## Neural Network models {.tabset .tabset-fade .tabset-pills} 
+
+Artificial neural networks are forecasting methods that are based on simple mathematical models of the brain. They allow complex nonlinear relationships between the response variable and its predictors. The very simplest networks contain no hidden layers and are equivalent to linear regression. Once we add an intermediate layer with hidden neurons, the neural network becomes non-linear. With time series data, lagged values of the time series can be used as inputs to a neural network. More information on applying neural networks for time series forecasting can be found in [this online book](https://www.otexts.org/fpp/9/3).
+
+The following versions of this model are available in the tsforecast package:
+
+### **fc_nn_5n_0decay**
+
+> **fc_nn_5n_0decay**= _Feed-forward **N**eural **N**etwork with a single hidden layer of **5** **n**odes **without** weight **decay**_
+
+The Neural Network model is implemented using the _forecast::nnetar(size = 5)_ function, which creates a feed-forward neural network with a single hidden layer consisting of 5 nodes without weight decay and with lagged inputs for forecasting the time series. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_nn_5n_0decay, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_nn_5n_0decay")
+```
+
+***
+
+### **fc_nn_25n_0decay**
+
+> **fc_nn_25n_0decay**= _Feed-forward **N**eural **N**etwork with a single hidden layer of **25** **n**odes **without** weight **decay**_
+
+The Neural Network model is implemented using the _forecast::nnetar(size = 25)_ function, which creates a feed-forward neural network with a single hidden layer consisting of 25 nodes without weight decay and with lagged inputs for forecasting the time series. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_nn_25n_0decay, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_nn_25n_0decay")
+```
+
+***
+
+### **fc_nn_5n_50decay**
+
+> **fc_nn_5n_50decay**= _Feed-forward **N**eural **N**etwork with a single hidden layer of **5** **n**odes with **50%** weight **decay**_
+
+The Neural Network model is implemented using the _forecast::nnetar(size = 5, decay = 0.50)_ function, which creates a feed-forward neural network with a single hidden layer consisting of 5 nodes with 50% weight decay and with lagged inputs for forecasting the time series. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_nn_5n_50decay, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_nn_5n_50decay")
+```
+
+***
+
+### **fc_nn_25n_50decay**
+
+> **fc_nn_25n_50decay**= _Feed-forward **N**eural **N**etwork with a single hidden layer of **25** **n**odes with **50%** weight **decay**_
+
+The Neural Network model is implemented using the _forecast::nnetar(size = 25, decay = 0.50)_ function, which creates a feed-forward neural network with a single hidden layer consisting of 25 nodes with 50% weight decay and with lagged inputs for forecasting the time series. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_nn_25n_50decay, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_nn_25n_50decay")
+```
+
+***
+
+### **fc_nn_5n_mlp**
+
+> **fc_nn_5n_mlp**= _**M**ulti**L**ayer **P**erceptron **N**eural **N**etwork with a single hidden layer of **5** **n**odes_
+
+The MLP Neural Network model is implemented using the _nnfor::mlp(x, hd = 5, reps = 10)_ function, which creates a multilayer perceptron neural network with a single hidden layer consisting of 5 nodes for forecasting the time series. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_nn_5n_mlp, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_nn_5n_mlp")
+```
+
+***
+
+### **fc_nn_25n_elm**
+
+> **fc_nn_25n_elm**= _**E**xtreme **L**earning **M**achine **N**eural **N**etwork with a single hidden layer of **25** **n**odes_
+
+The ELM Neural Network model is implemented using the _nnfor::elm(x, hd = 25, reps = 10)_ function, which creates a extreme learning machine neural network with a single hidden layer consisting of 25 nodes for forecasting the time series. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_nn_25n_elm, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_nn_25n_elm")
+```
+
+***
+
+
+
+## Prophet models {.tabset .tabset-fade .tabset-pills} 
+
+Prophet is a procedure for forecasting time series data developed and released as open source software by Facebook's Core Data Science team. Prophet is used in many applications across Facebook for producing reliable forecasts for planning and goal setting. It is robust to outliers, missing data, and dramatic changes in time series, for which it can automatically select changepoints in the time series. The flexibility of the automatic changepoint selection can be tuned through one of the parameters, to make the model more or less sensitive to changes in the time series pattern over time. More information on Prophet can be found on [the facebook github](https://facebook.github.io/prophet/) or in [this paper](https://peerj.com/preprints/3190/)
+
+The following versions of this model are available in the tsforecast package:
+
+### **fc_prophet_005cps**
+
+> **fc_prophet_005cps** = _**Prophet** model with low flexibility for the automatic **C**hange**P**oint **S**election_
+
+The Prophet model with low flexibility for automatic changepoint selection is implemented using the _prophet::prophet(changepoint.prior.scale = 0.005)_ function. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_prophet_005cps, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_prophet_005cps")
+```
+
+***
+
+### **fc_prophet_050cps**
+
+> **fc_prophet_050cps** = _**Prophet** model with medium (default) flexibility for the automatic **C**hange**P**oint **S**election_
+
+The Prophet model with medium (default) flexibility for automatic changepoint selection is implemented using the _prophet::prophet(changepoint.prior.scale = 0.050)_ function. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_prophet_050cps, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_prophet_050cps")
+```
+
+***
+
+### **fc_prophet_500cps**
+
+> **fc_prophet_500cps** = _**Prophet** model with high flexibility for the automatic **C**hange**P**oint **S**election_
+
+The Prophet model with high flexibility for automatic changepoint selection is implemented using the _prophet::prophet(changepoint.prior.scale = 0.500)_ function. The visualization below demonstrated the model when applied to the example dataset.
+
+```{r fc_prophet_500cps, echo=FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_prophet_500cps")
+```
+
+***
+
+
+
+## Regression Trees and Random Forests {.tabset .tabset-fade .tabset-pills} 
+
+Regression trees and ensemble models are some of the most commonly used machine learning methods. A tree is the outcome of a non-parametric regression, a decision tree that shows what value the variable of interest takes given differing levels of the explanatory variables. They can work with large numbers of explanatory variables, choose the ones that have the most impact and also visualize the relative degree of importance amongst them.
+
+Their downside is that they are prone to over-fitting. This can be overcome with fine-tuning the regression tree parameters and/or using ensemble methods, making use of many trees (known as random forests). Another downside is that they are not able to account for trends when forecasting. Thus the trees take the first difference of the variable of interest as their dependent variable.
+
+The following versions of this model are available in the tsforecast package:
+
+### **fc_rpart**
+
+> **fc_rpart** = _**R**ecursive **PART**ioning Trees_
+
+The RPART model is implemented using the _rpart::rpart()_ function. An intuitive description of its inner workings can be found [here](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf). The visualization below demonstrates the model when applied to the example dataset.
+
+```{r fc_rpart, echo = FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_rpart")
+```
+
+***
+
+### **fc_ctree**
+
+> **fc_ctree** = _**C**onditional Inference **TREE**s_
+
+The CTREE model is implemented using the _party::ctree()_ function. An intuitive description of its inner workings can be found [here](https://cran.r-project.org/web/packages/partykit/vignettes/ctree.pdf). The visualization below demonstrates the model when applied to the example dataset.
+
+```{r fc_ctree, echo = FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_ctree")
+```
+
+***
+
+### **fc_randomforest**
+
+> **fc_randomforest** = _**Random Forest**_
+
+The Random Forest is implemented using the _randomForest::randomForest()_ function. One of the first ensemble methods developed by statisticians at UC Berkeley, the random forest is an ensemble of multiple tree models as shown previously in this documentation. The original article describing the random forest can be found [here](https://link.springer.com/content/pdf/10.1023%2FA%3A1010933404324.pdf). The visualization below demonstrates the model when applied to the example dataset.
+
+```{r fc_randomforest, echo = FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_randomforest")
+```
+
+***
+
+
+
+## Ensemble of Forecast models {.tabset .tabset-fade .tabset-pills} 
+
+It has been well-known since at least 1969, when Bates and Granger wrote their famous paper on ['The Combination of Forecasts'](ftp://rammftp.cira.colostate.edu/Knaff/Annular_pres/3008764.pdf), that combining forecasts often leads to better forecast accuracy. Combining predictions or forecasts from multiple models is usually refered to as [ensemble learning](https://en.wikipedia.org/wiki/Ensemble_learning) and the resulting model is called an ensemble model. The ensemble models used in this package are implemented using the _hybridModel::hybridModel()_ function, which fits multiple models from the forecast package and then combines them using either equal weights or weights based on in-sample errors. More information on the implementation can be found [here](https://cran.r-project.org/web/packages/forecastHybrid/vignettes/forecastHybrid.html).
+
+The following version of this model is available in the tsforecast package:
+
+### **fc_ensemble_aefnst**
+
+> **fc_ensemble_aefnst** = _**Ensemble** of **A**RIMA, **E**TS, **N**eural Network, Linear (**s**), **T**BATS and Seasonal Naive (**z**) models_
+
+This ensemble model is implemented using all six available models, as specified above. The model forecasts are combined using equal weights accross each of the models. The visualization below demonstrates the model when applied to the example dataset.
+
+```{r fc_ensemble_aefnst, echo = FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_ensemble_aefnst")
+```
+
+***
+
+
+
+## Recursive ML models {.tabset .tabset-fade .tabset-pills} 
+
+Whereas the previously described Machine Learning (ML) models (Regression Trees and Random Forests) use multi-step forecasting to predict all required future values in one go, the recursive ML models use one-step forecasting. In one-step forecasting, only the first point is predicted and is then added to the dataset and used to do another one-step forecast to predict the next point. The recursive ML models are implemented using the [caret](http://topepo.github.io/caret/index.html) package, which is short for **C**lassification **A**nd **RE**gression **T**raining. It contains a set of functions that attempt to streamline the process for creating predictive models, which can be selected from a list of [available model tags](http://topepo.github.io/caret/train-models-by-tag.html).
+
+The following versions of this methodology are available in the tsforecast package:
+
+### **fc_rec_svmradsig**
+
+> **fc_rec_svmradsig** = _**Rec**ursive **S**upport **V**ector **M**achines with **Rad**ial Basis Function Kernel, tuning parameter **sig**ma_
+
+This model is a recursive implementation of a Support Vector Machine (SVM) which tunes over the cost parameter and the Radial Basis Function (RBF) kernel parameter sigma. The model is implemented using the _method = 'svmRadialSigma'_ tag from the caret package. The visualization below demonstrates the model when applied to the example dataset.
+
+```{r fc_rec_svmradsig, echo = FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_rec_svmradsig")
+```
+
+***
+
+### **fc_rec_rpart**
+
+> **fc_rec_rpart** = _**Rec**ursive, **R**ecursive **PART**ioning Trees_
+
+This model is a recursive implementation of a recursive partitioning and regression tree. An intuitive description of its inner workings can be found [here](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf). The model is implemented using the _method = 'rpart'_ tag from the caret package. The visualization below demonstrates the model when applied to the example dataset.
+
+```{r fc_rec_rpart, echo = FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_rec_rpart")
+```
+
+***
+
+### **fc_rec_ctree**
+
+> **fc_rec_ctree** = _**Rec**ursive **C**onditional Inference **Tree**_
+
+This model is a recursive implementation of a conditional inference tree. An intuitive description of its inner workings can be found [here](https://cran.r-project.org/web/packages/partykit/vignettes/ctree.pdf). The model is implemented using the _method = 'ctree'_ tag from the caret package. The visualization below demonstrates the model when applied to the example dataset.
+
+```{r fc_rec_ctree, echo = FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_rec_ctree")
+```
+
+***
+
+### **fc_rec_cforest**
+
+> **fc_rec_cforest** = _**Rec**ursive **C**onditional Inference Random **Forest**_
+
+This model is a recursive implementation of a conditional inference random forst. One of the first ensemble methods developed by statisticians at UC Berkeley, the random forest is an ensemble of multiple tree models as shown previously in this documentation. The original article describing the random forest can be found [here](https://link.springer.com/content/pdf/10.1023%2FA%3A1010933404324.pdf). The model is implemented using the _method = 'cforest'_ tag from the caret package. The visualization below demonstrates the model when applied to the example dataset.
+
+```{r fc_rec_cforest, echo = FALSE, results = "asis", out.width = "900px", out.height = "300px"}
+create_fc_model_plot("fc_rec_cforest")
+```
+
+***
+
+

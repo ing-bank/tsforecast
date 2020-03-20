@@ -1,0 +1,33 @@
+---
+title: "tsforecast"
+subtitle: "Available forecast models"
+author: "`r paste0('Latest update: ',Sys.time())`"
+output: 
+  html_document
+---
+
+For questions or comments, contact the package maintainer [Mehmet Kutluay](mailto:yasar.kutluay@ing.com)
+
+<br>
+
+***
+
+# Forecast approach<a name="fc_approach"></a> {.tabset .tabset-fade .tabset-pills} 
+
+***
+
+```{r child='forecast_approach.Rmd', results="asis", echo=FALSE, warning=FALSE, message=FALSE} 
+```
+
+<br>
+
+***
+
+# Forecast models<a name="fc_models"></a>
+
+***
+
+```{r child='forecast_models.Rmd', results="asis", echo=FALSE, warning=FALSE, message=FALSE} 
+```
+
+
