@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# <img src="man/figures/tsforecast_logo.png" width="150px" />
+# <img src="man/figures/tsforecast_logo.png" width="150px" align="right" />
 
 [![lifecycle](man/figures/lifecycle-stable-brightgreen.png)](https://www.tidyverse.org/lifecycle/#stable)
 
