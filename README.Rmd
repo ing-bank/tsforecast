@@ -60,7 +60,7 @@ For more information on definitions, available forecast models and their impleme
 * Running the `show_documentation()` function after [installing](#installation) and loading the package
 * Manually downloading [this file](inst/documentation/forecast_models.html) from Github and opening it in your browser (until Github makes it possible to view rendered html ...)
 
-The original developers of this R package are [Gertjan van den Bos](mailto:gertjan.bos@ing.com), [Mehmet Kutluay](mailto:yasar.kutluay@ing.com), [Olle Dahlen](mailto:olle.dahlen@ing.com), [Miel Verkerken](mailto:mielverkerken@hotmail.com) & [Han Lin](mailto:han.lin@ing.com)
+The original developers of this R package are [Gertjan van den Bos](mailto:gertjan.bos@ing.com), [Mehmet Kutluay](mailto:yasar.kutluay@ing.com), [Olle Dahlen](mailto:olle.dahlen@ing.com), [Miel Verkerken](mailto:mielverkerken@hotmail.com), [Han Lin](mailto:han.lin@ing.com) & [Berke Aslan](mailto:berke.aslan@edu.devinci.fr)
 
 ## Features<a name="features"></a>
 

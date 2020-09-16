@@ -58,8 +58,9 @@ The original developers of this R package are [Gertjan van den
 Bos](mailto:gertjan.bos@ing.com), [Mehmet
 Kutluay](mailto:yasar.kutluay@ing.com), [Olle
 Dahlen](mailto:olle.dahlen@ing.com), [Miel
-Verkerken](mailto:mielverkerken@hotmail.com) & [Han
-Lin](mailto:han.lin@ing.com)
+Verkerken](mailto:mielverkerken@hotmail.com), [Han
+Lin](mailto:han.lin@ing.com) & [Berke
+Aslan](mailto:berke.aslan@edu.devinci.fr)
 
 ## Features<a name="features"></a>
 
@@ -177,7 +178,9 @@ expsmooth::gasprice) that can be used to try out the package:
 ``` r
 library(tsforecast)
 #> Loading required package: Rcpp
+#> Warning: package 'Rcpp' was built under R version 3.6.3
 #> Loading required package: caret
+#> Warning: package 'caret' was built under R version 3.6.3
 #> Loading required package: lattice
 #> Loading required package: ggplot2
 #> Loading required package: tstools
